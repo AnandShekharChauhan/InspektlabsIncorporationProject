@@ -1,0 +1,57 @@
+<!-- zoom.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Zoom</title>
+    <style>
+        .zoom-container {
+            position: relative;
+        }
+        .zoom-pane {
+            position: absolute;
+            border: 1px solid #000;
+            background-color: #fff;
+            display: none;
+            width: 200px; /* Adjust the size as needed */
+            height: 200px;
+        }
+        .image {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="zoom-container">
+        <img src="{{ image_url }}" class="image" alt="Zoomable Image">
+        <div class="zoom-pane"></div>
+    </div>
+
+    <script>
+        const image = document.querySelector('.image');
+        const zoomPane = document.querySelector('.zoom-pane');
+        const zoomContainer = document.querySelector('.zoom-container');
+
+        image.addEventListener('mousemove', (e) => {
+            // Calculate the position of the zoom pane relative to the cursor
+            const x = e.pageX - zoomContainer.getBoundingClientRect().left;
+            const y = e.pageY - zoomContainer.getBoundingClientRect().top;
+
+            // Update the position of the zoom pane
+            zoomPane.style.left = x + 'px';
+            zoomPane.style.top = y + 'px';
+
+            // Show the zoom pane
+            zoomPane.style.display = 'block';
+
+            // Set the background image of the zoom pane to the same image
+            zoomPane.style.backgroundImage = `url('${image.src}')`;
+            zoomPane.style.backgroundSize = `${image.width * 2}px ${image.height * 2}px`;
+        });
+
+        image.addEventListener('mouseout', () => {
+            // Hide the zoom pane when the cursor leaves the image
+            zoomPane.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
